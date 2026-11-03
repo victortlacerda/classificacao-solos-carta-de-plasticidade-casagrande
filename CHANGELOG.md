@@ -1,5 +1,9 @@
 # Changelog
 
+## Não lançado
+
+- Prints do app em `docs/screenshots/` e README com apresentação comercial
+
 ## 1.0.0 - 2026-11-03
 
 - Carta de Casagrande interativa com classificação SUCS
