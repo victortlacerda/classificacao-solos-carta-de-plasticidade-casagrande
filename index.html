@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carta de Plasticidade de Casagrande</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f2f4f3;--panel:#fff;--ink:#13232b;--mute:#5d7078;--grid:#d5dddb;--hatch:#7b8f97;--accent:#e0382f;--zone:#e8eeed;--line:#cbd5d3}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10181c;--panel:#17232a;--ink:#e3ecee;--mute:#93a6ad;--grid:#2a3b43;--hatch:#6f858d;--accent:#ff6b5e;--zone:#1d2c33;--line:#2f424b}}
+:root[data-theme="dark"]{--bg:#10181c;--panel:#17232a;--ink:#e3ecee;--mute:#93a6ad;--grid:#2a3b43;--hatch:#6f858d;--accent:#ff6b5e;--zone:#1d2c33;--line:#2f424b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 "IBM Plex Sans",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+main{max-width:1180px;margin:0 auto;padding:24px 16px 40px}
+h1{font-size:22px;font-weight:600;margin:0 0 4px}
+.lead{margin:0 0 20px;color:var(--mute);max-width:70ch}
+.grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,1fr);gap:20px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px}
+svg{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}
+svg text{font-family:inherit;fill:var(--ink)}
+.f{display:grid;grid-template-columns:1fr 92px;gap:6px 12px;align-items:center;margin-bottom:14px}
+.f label{font-weight:500}
+.f small{color:var(--mute);font-weight:400}
+.f input[type=number]{width:100%;font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink);text-align:right}
+.f input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--accent)}
+input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mode{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 16px;padding:0;border:0}
+.mode legend{font-weight:500;padding:0;margin-bottom:6px}
+.mode label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.mode input{accent-color:var(--accent)}
+.f input:disabled{opacity:.6;background:var(--zone);cursor:not-allowed}
+.f .tag{color:var(--mute);font-size:12px;font-weight:400}
+.res{margin-top:6px;padding-top:16px;border-top:1px solid var(--line)}
+.sym{font-size:46px;font-weight:600;line-height:1.05;letter-spacing:-.02em}
+.name{font-size:17px;font-weight:600;margin:6px 0 2px}
+.sub{color:var(--mute);margin:0 0 10px}
+.note{margin:8px 0 0;padding:8px 10px;border-left:3px solid var(--grid);background:var(--zone);font-size:13.5px}
+.note.warn{border-left-color:var(--accent)}
+.ex{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.exl{display:block;font-weight:500;margin-bottom:8px}
+.pre{display:flex;flex-wrap:wrap;gap:6px}
+.pre button{font:inherit;font-size:13px;padding:5px 10px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink);cursor:pointer}
+.pre button:hover{border-color:var(--accent)}
+.theory{margin-top:20px}
+.theory h2{font-size:18px;font-weight:600;margin:0 0 4px}
+.theory h3{font-size:15px;font-weight:600;margin:18px 0 8px}
+.theory p{margin:0 0 8px;max-width:75ch}
+.tg{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:4px 28px}
+.theory dl{margin:0}
+.theory dt{font-weight:600;margin-top:10px}
+.theory dd{margin:2px 0 0;color:var(--mute)}
+.theory code{font:inherit;font-weight:500;color:var(--ink);background:var(--zone);padding:1px 5px;border-radius:3px}
+.hint{color:var(--mute);font-size:13px;margin:10px 0 0}
+</style>
+</head>
+<body>
+<main>
+<h1>Carta de plasticidade de Casagrande</h1>
+<p class="lead">Informe o limite de liquidez e o índice de plasticidade (ou o limite de plasticidade, e o IP é calculado como LL − LP), ou clique no gráfico. O ponto e a classificação do solo fino (SUCS) atualizam na hora.</p>
+<div class="grid">
+  <div class="card"><svg id="chart" viewBox="0 0 760 500" role="img" aria-label="Carta de plasticidade com o ponto do solo"></svg>
+  <p class="hint">Clique ou arraste no gráfico para posicionar o ponto.</p>
+  <div class="ex"><span class="exl">Exemplos:</span><div class="pre" id="pre"></div></div></div>
+  <div class="card">
+    <fieldset class="mode"><legend>Quais parâmetros você tem?</legend>
+      <label><input type="radio" name="mode" value="ip" checked> LL e IP</label>
+      <label><input type="radio" name="mode" value="lp"> LL e LP</label></fieldset>
+    <div class="f"><label for="ll">Limite de liquidez, LL <small>(%)</small></label><input id="ll" type="number" min="0" max="120" step="0.1" value="40">
+      <input id="llr" type="range" min="0" max="100" step="0.5" aria-label="LL" value="40"></div>
+    <div class="f"><label for="ip">Índice de plasticidade, IP <small>(%)</small> <span class="tag" id="iptag"></span></label><input id="ip" type="number" min="0" max="80" step="0.1" value="21">
+      <input id="ipr" type="range" min="0" max="60" step="0.5" aria-label="IP" value="21"></div>
+    <div class="f"><label for="lp">Limite de plasticidade, LP <small>(%)</small> <span class="tag" id="lptag">calculado: LL − IP</span></label><input id="lp" type="number" min="0" max="120" step="0.1" value="19">
+      <input id="lpr" type="range" min="0" max="100" step="0.5" aria-label="LP" value="19"></div>
+    <div class="res" aria-live="polite" id="res"></div>
+  </div>
+</div>
+<section class="card theory">
+<h2>Teoria</h2>
+<p>A carta de Casagrande classifica a <strong>fração fina</strong> do solo (passante na peneira nº 200) a partir de dois ensaios de consistência. A classificação completa pelo SUCS (ASTM D2487) também depende da granulometria.</p>
+<h3>Índices de consistência</h3>
+<div class="tg"><dl>
+<dt>LL, limite de liquidez</dt><dd>Umidade em que o solo passa do estado plástico ao líquido. É determinada no aparelho de Casagrande, como a umidade correspondente a 25 golpes.</dd>
+<dt>LP, limite de plasticidade</dt><dd>Umidade em que o solo deixa de ser moldável e começa a se fragmentar ao ser rolado em cilindro de 3 mm.</dd></dl><dl>
+<dt>IP, índice de plasticidade</dt><dd><code>IP = LL − LP</code>. Mede a faixa de umidade em que o solo é plástico. Quanto maior o IP, mais argiloso tende a ser o solo.</dd>
+<dt>NP, não plástico</dt><dd>Solo em que não é possível determinar LP ou LL, ou em que IP ≈ 0.</dd></dl></div>
+<h3>Linhas do gráfico</h3>
+<div class="tg"><dl>
+<dt>Linha A: IP = 0,73·(LL − 20)</dt><dd>Separa argilas de siltes. Pontos acima dela são argilas (C); abaixo, siltes ou solos orgânicos (M e O).</dd>
+<dt>Linha U: IP = 0,9·(LL − 8)</dt><dd>Limite superior empírico, a partir de LL = 16. Quase nenhum solo natural fica acima dela, então um ponto nessa zona sugere erro de ensaio.</dd></dl><dl>
+<dt>LL = 50</dt><dd>Separa baixa plasticidade (L, LL &lt; 50) de alta plasticidade (H, LL ≥ 50). É a divisão usada nos símbolos do SUCS.</dd>
+<dt>LL = 30</dt><dd>Subdivisão adicional deste gráfico, que separa baixa de média plasticidade ou compressibilidade. Não altera o símbolo SUCS.</dd></dl></div>
+<h3>Siglas</h3>
+<p>A primeira letra indica o tipo de solo e a segunda, o nível de plasticidade.</p>
+<div class="tg"><dl>
+<dt>C, M, O</dt><dd>C: argila (clay). M: silte (do sueco mo). O: solo orgânico.</dd>
+<dt>L e H</dt><dd>L: baixa plasticidade (LL &lt; 50). H: alta plasticidade (LL ≥ 50).</dd>
+<dt>CL</dt><dd>Argila inorgânica de baixa a média plasticidade (acima da linha A, LL &lt; 50).</dd>
+<dt>CH</dt><dd>Argila inorgânica de alta plasticidade (acima da linha A, LL ≥ 50).</dd></dl><dl>
+<dt>ML</dt><dd>Silte inorgânico de baixa compressibilidade, ou areia fina siltosa (abaixo da linha A, LL &lt; 50).</dd>
+<dt>MH</dt><dd>Silte inorgânico de alta compressibilidade (abaixo da linha A, LL ≥ 50).</dd>
+<dt>OL e OH</dt><dd>Siltes e argilas orgânicas de baixa e de alta plasticidade. Ocupam as mesmas regiões de ML e MH, e só se distinguem pela razão entre o LL do solo seco em estufa e o LL natural (&lt; 0,75 indica solo orgânico), além de cor e odor.</dd>
+<dt>CL-ML</dt><dd>Símbolo duplo de fronteira: argila siltosa ou silte argiloso, com 4 ≤ IP ≤ 7 e acima da linha A (região cinza do gráfico).</dd></dl></div>
+<h3>Solos não coesivos</h3>
+<p>A região hachurada no canto inferior esquerdo reúne solos com IP &lt; 4 acima da linha A. São pouco ou nada plásticos, e o comportamento é dominado pelo atrito entre grãos, não pela coesão. Costumam ser siltes e areias finas siltosas (ML), e seu comportamento difere bastante do das argilas.</p>
+</section>
+</main>
+<script>
+const W=760,H=500,m={l:64,r:20,t:16,b:56},XM=100,YM=60;
+const X=v=>m.l+v/XM*(W-m.l-m.r), Y=v=>H-m.b-v/YM*(H-m.t-m.b);
+const A=ll=>0.73*(ll-20), U=ll=>0.9*(ll-8);
+const $=id=>document.getElementById(id);
+
+function classify(LL,IP){
+  if(!(LL>0)||!(IP>=0)) return {err:"Informe valores positivos para LL e IP."};
+  if(IP>LL) return {err:"IP não pode ser maior que LL (IP = LL − LP)."};
+  const nivel=LL<30?"baixa":LL<50?"média":"alta";
+  const a=A(LL), acima=IP>=a, notes=[];
+  let sym,name,sub;
+  if(acima&&IP>=4&&IP<=7){sym="CL-ML";name="Argila siltosa / silte argiloso";sub="Caso de fronteira: região hachurada (4 ≤ IP ≤ 7, acima da linha A)."}
+  else if(acima&&IP>=4){
+    if(LL<50){sym="CL";name="Argila inorgânica de "+nivel+" plasticidade";sub="Acima da linha A, LL < 50."}
+    else{sym="CH";name="Argila inorgânica de alta plasticidade";sub="Acima da linha A, LL ≥ 50."}
+  } else if(acima){sym="ML";name="Silte inorgânico de baixa compressibilidade";sub="Região de solos não coesivos (IP < 4, acima da linha A): pouco ou não plástico."}
+  else if(LL<30){sym="ML";name="Silte inorgânico de baixa compressibilidade";sub="Abaixo da linha A, LL < 30."}
+  else if(LL<50){sym="ML / OL";name="Silte inorgânico de compressibilidade média ou silte orgânico";sub="Abaixo da linha A, 30 ≤ LL < 50."}
+  else{sym="MH / OH";name="Silte de alta compressibilidade ou argila/silte orgânico";sub="Abaixo da linha A, LL ≥ 50."}
+  if(IP<1) notes.push(["Solo praticamente não plástico (IP ≈ 0).",0]);
+  if(/OL|OH/.test(sym)) notes.push(["A carta não separa inorgânico de orgânico. Compare o LL do solo seco em estufa com o LL natural: razão < 0,75 indica solo orgânico.",0]);
+  if(IP>U(LL)&&LL>=16) notes.push(["Ponto acima da linha U (IP = 0,9·(LL − 8)): combinação improvável, verifique os ensaios.",1]);
+  notes.push(["Linha A em LL = "+LL.toFixed(1)+": IP = "+Math.max(a,0).toFixed(1)+". Seu IP está "+(IP>=a?"acima":"abaixo")+" ("+(IP-Math.max(a,0)>=0?"+":"")+(IP-Math.max(a,0)).toFixed(1)+").",0]);
+  return {sym,name,sub,notes};
+}
+
+/* ---- chart ---- */
+const svg=$("chart");
+function base(){
+  let s=`<defs><pattern id="hz" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--hatch)" stroke-width="2"/></pattern></defs>`;
+  s+=`<polygon points="${X(0)},${Y(0)} ${X(20)},${Y(0)} ${X(25.48)},${Y(4)} ${X(0)},${Y(4)}" fill="url(#hz)" opacity=".55"/>`;
+  s+=`<polygon points="${X(0)},${Y(4)} ${X(25.48)},${Y(4)} ${X(29.59)},${Y(7)} ${X(0)},${Y(7)}" fill="var(--hatch)" opacity=".35"/>`;
+  for(let v=0;v<=XM;v+=10){s+=`<line x1="${X(v)}" x2="${X(v)}" y1="${Y(0)}" y2="${Y(YM)}" stroke="var(--grid)"/><text x="${X(v)}" y="${Y(0)+20}" text-anchor="middle" font-size="13">${v}</text>`}
+  for(let v=0;v<=YM;v+=10){s+=`<line y1="${Y(v)}" y2="${Y(v)}" x1="${X(0)}" x2="${X(XM)}" stroke="var(--grid)"/><text x="${X(0)-10}" y="${Y(v)+4}" text-anchor="end" font-size="13">${v}</text>`}
+  s+=`<rect x="${X(0)}" y="${Y(YM)}" width="${X(XM)-X(0)}" height="${Y(0)-Y(YM)}" fill="none" stroke="var(--ink)"/>`;
+  for(const v of [30,50])s+=`<line x1="${X(v)}" x2="${X(v)}" y1="${Y(0)}" y2="${Y(YM)}" stroke="var(--ink)" stroke-width="1.2"/><text x="${X(v)+5}" y="${Y(YM)+14}" font-size="12" fill="var(--mute)" style="fill:var(--mute)">LL = ${v}</text>`;
+  s+=`<line x1="${X(20)}" y1="${Y(0)}" x2="${X(XM)}" y2="${Y(A(XM))}" stroke="var(--ink)" stroke-width="2"/>`;
+  s+=`<line x1="${X(16)}" y1="${Y(7)}" x2="${X(8+YM/.9)}" y2="${Y(YM)}" stroke="var(--mute)" stroke-width="1.2" stroke-dasharray="5 4"/>`;
+  s+=`<text transform="translate(${X(83)},${Y(A(83))+20}) rotate(${-Math.atan(0.73*(Y(0)-Y(YM))/YM/((X(XM)-X(0))/XM))*180/Math.PI})" font-size="12" text-anchor="middle">Linha A: IP = 0,73·(LL − 20)</text>`;
+  s+=`<text x="${X(70)}" y="${Y(U(70))-6}" font-size="11" style="fill:var(--mute)" transform="rotate(-48 ${X(70)} ${Y(U(70))-6})">Linha U</text>`;
+  const z=[[22,15,"CL","baixa plasticidade"],[40,27,"CL","média plasticidade"],[62,41,"CH","alta plasticidade"],[40,5,"ML / OL",""],[70,10,"MH / OH",""],[10,5.7,"CL-ML",""]];
+  for(const [l,i,t,d] of z)s+=`<text x="${X(l)}" y="${Y(i)}" font-size="${t==="CL-ML"?11:15}" font-weight="600" text-anchor="middle" style="fill:var(--mute)">${t}</text>`+(d?`<text x="${X(l)}" y="${Y(i)+15}" font-size="11" text-anchor="middle" style="fill:var(--mute)">${d}</text>`:"");
+  s+=`<text x="${X(10)}" y="${Y(1.1)}" font-size="11" font-weight="600" text-anchor="middle" style="paint-order:stroke;stroke:var(--panel);stroke-width:3px;fill:var(--ink)">Solos não coesivos</text>`;
+  s+=`<text x="${(X(0)+X(XM))/2}" y="${H-10}" text-anchor="middle" font-size="15" font-weight="500">Limite de liquidez, LL (%)</text>`;
+  s+=`<text transform="translate(16 ${(Y(0)+Y(YM))/2}) rotate(-90)" text-anchor="middle" font-size="15" font-weight="500">Índice de plasticidade, IP (%)</text>`;
+  s+=`<g id="pt" style="transition:transform .18s ease-out"><line id="gx" stroke="var(--accent)" stroke-dasharray="4 4"/><line id="gy" stroke="var(--accent)" stroke-dasharray="4 4"/><circle r="8" fill="var(--accent)" stroke="var(--panel)" stroke-width="2.5"/></g>`;
+  svg.innerHTML=s;
+}
+base();
+
+let mode="ip";
+function sync(){
+  const LL=parseFloat($("ll").value);let IP,LP,err=null;
+  if(mode==="ip"){IP=parseFloat($("ip").value);LP=LL-IP;$("lp").value=isFinite(LP)?+LP.toFixed(2):"";}
+  else{LP=parseFloat($("lp").value);IP=LL-LP;$("ip").value=isFinite(IP)?+IP.toFixed(2):"";
+    if(LP<0)err="LP não pode ser negativo.";else if(LP>LL)err="LP não pode ser maior que LL (o IP ficaria negativo).";}
+  return {LL,IP,LP,err};
+}
+function setMode(v){
+  mode=v;const a=v==="ip";
+  $("ip").disabled=$("ipr").disabled=!a;$("lp").disabled=$("lpr").disabled=a;
+  $("iptag").textContent=a?"":"calculado: LL − LP";$("lptag").textContent=a?"calculado: LL − IP":"";
+  render();
+}
+document.querySelectorAll('input[name=mode]').forEach(r=>r.onchange=e=>setMode(e.target.value));
+function setPoint(ll,ip){
+  $("ll").value=ll;
+  if(mode==="ip")$("ip").value=ip;else $("lp").value=+(ll-ip).toFixed(2);
+  render();
+}
+function render(){
+  const {LL,IP,LP,err}=sync(), r=err?{err}:classify(LL,IP);
+  const ok=!r.err, cx=X(Math.min(Math.max(LL||0,0),XM)), cy=Y(Math.min(Math.max(IP||0,0),YM));
+  const pt=$("pt"); pt.style.transform=`translate(${cx}px,${cy}px)`; pt.style.display=(LL>=0&&IP>=0)?"":"none";
+  $("gx").setAttribute("x1",0);$("gx").setAttribute("x2",0);$("gx").setAttribute("y1",0);$("gx").setAttribute("y2",Y(0)-cy);
+  $("gy").setAttribute("y1",0);$("gy").setAttribute("y2",0);$("gy").setAttribute("x1",0);$("gy").setAttribute("x2",X(0)-cx);
+  $("llr").value=LL; $("ipr").value=IP; $("lpr").value=LP;
+  $("res").innerHTML = r.err ? `<div class="note warn">${r.err}</div>` :
+    `<div class="sym">${r.sym}</div><div class="name">${r.name}</div><p class="sub">${r.sub}</p>`+
+    r.notes.map(n=>`<div class="note${n[1]?" warn":""}">${n[0]}</div>`).join("")+
+    ((LL>XM||IP>YM)?`<div class="note">O ponto está fora da área exibida (LL até 100, IP até 60).</div>`:"");
+}
+$("ll").oninput=render; $("ip").oninput=render; $("lp").oninput=render;
+$("llr").oninput=e=>{$("ll").value=e.target.value;render()};
+$("ipr").oninput=e=>{$("ip").value=e.target.value;render()};
+$("lpr").oninput=e=>{$("lp").value=e.target.value;render()};
+
+function fromPointer(e){
+  const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;
+  const q=p.matrixTransform(svg.getScreenCTM().inverse());
+  const ll=Math.min(Math.max((q.x-m.l)/(W-m.l-m.r)*XM,0),XM), ip=Math.min(Math.max((H-m.b-q.y)/(H-m.t-m.b)*YM,0),YM);
+  setPoint(+ll.toFixed(1),+ip.toFixed(1));
+}
+let drag=false;
+svg.addEventListener("pointerdown",e=>{drag=true;svg.setPointerCapture(e.pointerId);fromPointer(e)});
+svg.addEventListener("pointermove",e=>{if(drag)fromPointer(e)});
+svg.addEventListener("pointerup",()=>drag=false);
+
+[["Argila CL",40,21],["Argila CH",77,50],["Silte MH/OH",82,13],["Silte ML/OL",35,5],["CL-ML",24,6],["Silte ML",25,3]].forEach(([n,l,i])=>{
+  const b=document.createElement("button");b.textContent=n;b.onclick=()=>setPoint(l,i);$("pre").appendChild(b);
+});
+setMode("ip");
+</script>
+</body>
+</html>
