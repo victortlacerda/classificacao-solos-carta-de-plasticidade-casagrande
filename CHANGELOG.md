@@ -2,6 +2,7 @@
 
 ## Não lançado
 
+- Ícone próprio da aba e do histórico do navegador (SVG embutido no `index.html`).
 - Prints do app em `docs/screenshots/` e README com apresentação comercial
 
 ## 1.0.0 - 2026-11-03
