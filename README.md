@@ -6,7 +6,7 @@ Ferramenta de geotecnia para **classificar solos finos pelo SUCS** (ASTM D2487).
 
 **Demonstração online:** https://victortlacerda.github.io/classifica-o-solos-carta-de-plasticidade-casagrande/
 
-![Classificação de uma argila de média plasticidade (CL)](docs/screenshots/01-argila-cl.png)
+![Classificação de uma argila de média plasticidade (CL)](docs/screenshots/01-argila-cl-azul.png)
 
 ## Por que usar
 
@@ -20,18 +20,18 @@ Ferramenta de geotecnia para **classificar solos finos pelo SUCS** (ASTM D2487).
 
 Escolha quais parâmetros você tem. No modo **LL e LP**, o IP é calculado como LL − LP e usado na classificação. Também dá para clicar ou arrastar direto no gráfico.
 
-![Entrada por LL e LP, com IP calculado](docs/screenshots/05-modo-ll-lp.png)
+![Entrada por LL e LP, com IP calculado](docs/screenshots/05-modo-ll-lp-azul.png)
 
 ### Todas as regiões da carta
 
 <table>
 <tr>
-<td width="50%"><img src="docs/screenshots/02-argila-ch.png" alt="Argila de alta plasticidade (CH)"><br><sub><b>CH</b>: argila inorgânica de alta plasticidade</sub></td>
-<td width="50%"><img src="docs/screenshots/03-silte-mh-oh.png" alt="Silte de alta compressibilidade (MH/OH)"><br><sub><b>MH / OH</b>: silte de alta compressibilidade ou solo orgânico</sub></td>
+<td width="50%"><img src="docs/screenshots/02-argila-ch-azul.png" alt="Argila de alta plasticidade (CH)"><br><sub><b>CH</b>: argila inorgânica de alta plasticidade</sub></td>
+<td width="50%"><img src="docs/screenshots/03-silte-mh-oh-azul.png" alt="Silte de alta compressibilidade (MH/OH)"><br><sub><b>MH / OH</b>: silte de alta compressibilidade ou solo orgânico</sub></td>
 </tr>
 <tr>
-<td width="50%"><img src="docs/screenshots/04-cl-ml.png" alt="Caso de fronteira CL-ML"><br><sub><b>CL-ML</b>: caso de fronteira, com 4 ≤ IP ≤ 7</sub></td>
-<td width="50%"><img src="docs/screenshots/07-tema-escuro.png" alt="Tema escuro"><br><sub>Tema escuro automático</sub></td>
+<td width="50%"><img src="docs/screenshots/04-cl-ml-azul.png" alt="Caso de fronteira CL-ML"><br><sub><b>CL-ML</b>: caso de fronteira, com 4 ≤ IP ≤ 7</sub></td>
+<td width="50%"><img src="docs/screenshots/07-tema-escuro-azul.png" alt="Tema escuro"><br><sub>Tema escuro automático</sub></td>
 </tr>
 </table>
 
@@ -39,11 +39,11 @@ Escolha quais parâmetros você tem. No modo **LL e LP**, o IP é calculado como
 
 A página explica os índices de consistência, as linhas A e U, as divisões em LL = 30 e LL = 50, cada sigla (C, M, O, L, H, CL, CH, ML, MH, OL, OH, CL-ML) e a região de solos não coesivos.
 
-![Seção de teoria](docs/screenshots/06-teoria.png)
+![Seção de teoria](docs/screenshots/06-teoria-azul.png)
 
 ### No celular
 
-<img src="docs/screenshots/08-mobile.png" alt="Versão para celular" width="320">
+<img src="docs/screenshots/08-mobile-azul.png" alt="Versão para celular" width="320">
 
 ## Recursos
 

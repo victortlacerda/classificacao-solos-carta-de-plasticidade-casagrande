@@ -2,6 +2,8 @@
 
 ## Não lançado
 
+- Cor de destaque trocada de vermelho para azul (rgb 21, 102, 209), com prints atualizados
+
 - Ícone próprio da aba e do histórico do navegador (SVG embutido no `index.html`).
 - Prints do app em `docs/screenshots/` e README com apresentação comercial
 
