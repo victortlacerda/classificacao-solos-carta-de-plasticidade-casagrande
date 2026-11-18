@@ -43,7 +43,7 @@ A página explica os índices de consistência, as linhas A e U, as divisões em
 
 ### No celular
 
-<img src="docs/screenshots/08-mobile-azul.png" alt="Versão para celular" width="320">
+<img src="docs/screenshots/08-celular.png" alt="Versão para celular" width="320">
 
 ## Recursos
 
