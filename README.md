@@ -4,7 +4,7 @@ Ferramenta de geotecnia para **classificar solos finos pelo SUCS** (ASTM D2487).
 
 É um único arquivo HTML: abra com duplo clique no navegador, sem instalar nada e sem internet.
 
-**Demonstração online:** https://victortlacerda.github.io/classifica-o-solos-carta-de-plasticidade-casagrande/
+**Demonstração online:** [https://victortlacerda.github.io/classifica-o-solos-carta-de-plasticidade-casagrande/](https://victortlacerda.github.io/classificacao-solos-carta-de-plasticidade-casagrande/)
 
 ![Classificação de uma argila de média plasticidade (CL)](docs/screenshots/01-argila-cl-azul.png)
 
